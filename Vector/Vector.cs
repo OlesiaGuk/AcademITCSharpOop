@@ -154,34 +154,37 @@ namespace Vector
             return Math.Sqrt(squaresSum);
         }
 
+        public double GetComponentByIndex(int index)
+        {
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException("Индекс должен быть >= 0");
+            }
+            if (index >= _components.Length)
+            {
+                throw new IndexOutOfRangeException("Введенный индекс превышает размерность вектора");
+            }
 
+            return _components[index];
+        }
+
+        public void SetComponentByIndex(double newComponent, int index)
+        {
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException("Индекс должен быть >= 0");
+            }
+            if (index >= _components.Length)
+            {
+                throw new IndexOutOfRangeException("Введенный индекс превышает размерность вектора");
+            }
+
+            _components[index] = newComponent;
+        }
 
     }
 }
 /*
-
-    public double getComponentByIndex(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Индекс должен быть >= 0");
-        }
-        if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Введенный индекс превышает размерность вектора");
-        }
-
-        return components[index];
-    }
-
-    public void setComponentByIndex(double newComponent, int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Индекс должен быть >= 0");
-        }
-        if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Введенный индекс превышает размерность вектора");
-        }
-
-        components[index] = newComponent;
-    }
-
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector newVector = new Vector(vector1);
         newVector.add(vector2);
