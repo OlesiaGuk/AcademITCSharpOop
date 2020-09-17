@@ -182,29 +182,33 @@ namespace Vector
             _components[index] = newComponent;
         }
 
-    }
-}
-/*
-    public static Vector getSum(Vector vector1, Vector vector2) {
-        Vector newVector = new Vector(vector1);
-        newVector.add(vector2);
-        return newVector;
-    }
+        public static Vector GetSum(Vector vector1, Vector vector2)
+        {
+            var resultantVector = new Vector(vector1);
+            resultantVector.Add(vector2);
 
-    public static Vector getDifference(Vector vector1, Vector vector2) {
-        Vector newVector = new Vector(vector1);
-        newVector.subtract(vector2);
-        return newVector;
-    }
-
-    public static double getScalarMultiplication(Vector vector1, Vector vector2) {
-        int minArraySize = Math.min(vector1.getSize(), vector2.getSize());
-
-        double scalarMultiplication = 0;
-        for (int i = 0; i < minArraySize; i++) {
-            scalarMultiplication += vector1.components[i] * vector2.components[i];
+            return resultantVector;
         }
 
-        return scalarMultiplication;
-    } 
- * */
+        public static Vector GetDifference(Vector vector1, Vector vector2)
+        {
+            var resultantVector = new Vector(vector1);
+            resultantVector.Subtract(vector2);
+
+            return resultantVector;
+        }
+
+        public static double GetScalarMultiplication(Vector vector1, Vector vector2)
+        {
+            var minArraySize = Math.Min(vector1.GetSize(), vector2.GetSize());
+            double scalarMultiplication = 0;
+
+            for (var i = 0; i < minArraySize; i++)
+            {
+                scalarMultiplication += vector1._components[i] * vector2._components[i];
+            }
+
+            return scalarMultiplication;
+        }
+    }
+}
