@@ -137,24 +137,28 @@ namespace Vector
             }
         }
 
+        public void Reverse()
+        {
+            MultiplyByScalar(-1);
+        }
+
+        public double GetLength()
+        {
+            double squaresSum = 0;
+
+            foreach (var e in _components)
+            {
+                squaresSum += Math.Pow(e, 2);
+            }
+
+            return Math.Sqrt(squaresSum);
+        }
 
 
 
     }
 }
 /*
-
-    public void reverse() {
-        multiplyByScalar(-1);
-    }
-
-    public double getLength() {
-        double squaresSum = 0;
-        for (double e : components) {
-            squaresSum += Math.pow(e, 2);
-        }
-        return Math.sqrt(squaresSum);
-    }
 
     public double getComponentByIndex(int index) {
         if (index < 0) {
