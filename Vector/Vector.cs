@@ -103,33 +103,46 @@ namespace Vector
             return prime * hash + _components.GetHashCode();
         }
 
+        public void Add(Vector vector)
+        {
+            if (GetSize() < vector.GetSize())
+            {
+                Array.Resize(ref _components, vector._components.Length);
+            }
+
+            for (var i = 0; i < vector.GetSize(); i++)
+            {
+                _components[i] += vector._components[i];
+            }
+        }
+
+        public void Subtract(Vector vector)
+        {
+            if (GetSize() < vector.GetSize())
+            {
+                Array.Resize(ref _components, vector._components.Length);
+            }
+
+            for (var i = 0; i < vector.GetSize(); i++)
+            {
+                _components[i] -= vector._components[i];
+            }
+        }
+
+        public void MultiplyByScalar(double scalar)
+        {
+            for (var i = 0; i < GetSize(); i++)
+            {
+                _components[i] *= scalar;
+            }
+        }
+
+
+
 
     }
 }
 /*
- *public void add(Vector vector) {
-        if (getSize() < vector.getSize()) {
-            components = Arrays.copyOf(components, vector.getSize());
-        }
-        for (int i = 0; i < vector.getSize(); i++) {
-            components[i] += vector.components[i];
-        }
-    }
-
-    public void subtract(Vector vector) {
-        if (getSize() < vector.getSize()) {
-            components = Arrays.copyOf(components, vector.getSize());
-        }
-        for (int i = 0; i < vector.getSize(); i++) {
-            components[i] -= vector.components[i];
-        }
-    }
-
-    public void multiplyByScalar(double scalar) {
-        for (int i = 0; i < getSize(); i++) {
-            components[i] *= scalar;
-        }
-    }
 
     public void reverse() {
         multiplyByScalar(-1);
