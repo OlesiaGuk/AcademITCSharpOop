@@ -42,7 +42,7 @@ namespace Shapes.Shapes
             {
                 return true;
             }
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
             {
                 return false;
             }

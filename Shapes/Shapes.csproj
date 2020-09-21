@@ -58,9 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShapesMain\ShapesAreaComparator.cs" />
-    <Compile Include="ShapesMain\ShapesMain.cs" />
-    <Compile Include="ShapesMain\ShapesPerimeterComparator.cs" />
+    <Compile Include="ShapesComparers\ShapesAreaComparator.cs" />
+    <Compile Include="ShapesMain.cs" />
+    <Compile Include="ShapesComparers\ShapesPerimeterComparator.cs" />
     <Compile Include="Shapes\Circle.cs" />
     <Compile Include="Shapes\IShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

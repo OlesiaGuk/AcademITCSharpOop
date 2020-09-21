@@ -3,6 +3,7 @@
     class Rectangle : IShape
     {
         public double Width { get; set; }
+
         public double Length { get; set; }
 
         public Rectangle(double width, double length)
@@ -42,7 +43,7 @@
             {
                 return true;
             }
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
             {
                 return false;
             }

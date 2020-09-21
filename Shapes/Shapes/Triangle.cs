@@ -5,10 +5,15 @@ namespace Shapes.Shapes
     class Triangle : IShape
     {
         public double X1 { get; set; }
+
         public double Y1 { get; set; }
+
         public double X2 { get; set; }
+
         public double Y2 { get; set; }
+
         public double X3 { get; set; }
+
         public double Y3 { get; set; }
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
@@ -71,7 +76,7 @@ namespace Shapes.Shapes
             {
                 return true;
             }
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
             {
                 return false;
             }
