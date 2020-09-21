@@ -33,7 +33,7 @@ namespace Shapes.Shapes
 
         public override string ToString()
         {
-            return string.Format($"Круг с радиусом {Radius:f}. Площадь = {GetArea():f}, длина окружности = {GetPerimeter():f}");
+            return $"Круг с радиусом {Radius:f}. Площадь = {GetArea():f}, длина окружности = {GetPerimeter():f}";
         }
 
         public override bool Equals(object obj)

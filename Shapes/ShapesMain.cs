@@ -1,18 +1,14 @@
 ﻿using System;
 using Shapes.Shapes;
+using Shapes.ShapesComparers;
 
-namespace Shapes.ShapesMain
+namespace Shapes
 {
     class ShapesMain
     {
         static void Main(string[] args)
         {
-            var shapesArray = new IShape[5];
-            shapesArray[0] = new Square(15);
-            shapesArray[1] = new Square(20);
-            shapesArray[2] = new Rectangle(5, 25);
-            shapesArray[3] = new Triangle(1, 1, 2, 5, 5, 3);
-            shapesArray[4] = new Circle(7);
+            var shapesArray = new IShape[] { new Square(15), new Square(20), new Rectangle(5, 25), new Triangle(1, 1, 2, 5, 5, 3), new Circle(7) };
 
             Console.WriteLine("Исходный список фигур: ");
 
@@ -21,22 +17,20 @@ namespace Shapes.ShapesMain
                 Console.WriteLine(s);
             }
 
-            var shapesAreaComparator = new ShapesAreaComparator();
-            Array.Sort(shapesArray, shapesAreaComparator);
+            Array.Sort(shapesArray, new ShapesAreaComparer());
 
             Console.WriteLine();
             Console.WriteLine("Фигура(ы) с максимальной площадью: ");
 
             foreach (var s in shapesArray)
             {
-                if (s.GetArea() == shapesArray[0].GetArea())
+                if (s.GetArea() == shapesArray[shapesArray.Length - 1].GetArea())
                 {
                     Console.WriteLine(s);
                 }
             }
 
-            var shapesPerimeterComparator = new ShapesPerimeterComparator();
-            Array.Sort(shapesArray, shapesPerimeterComparator);
+            Array.Sort(shapesArray, new ShapesPerimeterComparer());
 
             Console.WriteLine();
             Console.WriteLine("Фигура(ы) со вторым по величине периметром: ");
@@ -49,13 +43,11 @@ namespace Shapes.ShapesMain
             }
             else
             {
+                foreach (var s in shapesArray)
                 {
-                    foreach (var s in shapesArray)
+                    if (s.GetPerimeter() == secondMaxPerimeterShape.GetPerimeter())
                     {
-                        if (s.GetPerimeter() == secondMaxPerimeterShape.GetPerimeter())
-                        {
-                            Console.WriteLine(s);
-                        }
+                        Console.WriteLine(s);
                     }
                 }
             }
@@ -63,9 +55,9 @@ namespace Shapes.ShapesMain
 
         private static IShape GetSecondMaxPerimeterShape(IShape[] shapesArray)
         {
-            var max = shapesArray[0].GetPerimeter();
+            var max = shapesArray[shapesArray.Length - 1].GetPerimeter();
 
-            for (var i = 1; i < shapesArray.Length; i++)
+            for (var i = shapesArray.Length - 2; i >= 0; i--)
             {
                 if (shapesArray[i].GetPerimeter() < max)
                 {

@@ -59,15 +59,14 @@ namespace Shapes.Shapes
             return Math.Min(a, Math.Min(b, c));
         }
 
-        private static double GetSideLength(double a1, double b1, double a2, double b2)
+        private static double GetSideLength(double x1, double y1, double x2, double y2)
         {
-            return Math.Sqrt(Math.Pow((a2 - a1), 2) + Math.Pow((b2 - b1), 2));
+            return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }
 
         public override string ToString()
         {
-            return string.Format(
-                $"Треугольник с вершинами ({X1}; {Y1}) ({X2}; {Y2}) ({X3}; {Y3}). Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}");
+            return $"Треугольник с вершинами ({X1}; {Y1}) ({X2}; {Y2}) ({X3}; {Y3}). Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}";
         }
 
         public override bool Equals(object obj)

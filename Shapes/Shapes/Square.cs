@@ -34,7 +34,7 @@ namespace Shapes.Shapes
 
         public override string ToString()
         {
-            return string.Format($"Квадрат со стороной {SideLength:f2}. Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}");
+            return $"Квадрат со стороной {SideLength:f2}. Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}";
         }
 
         public override bool Equals(object obj)

@@ -34,7 +34,7 @@
 
         public override string ToString()
         {
-            return string.Format($"Прямоугольник со сторонами {Width:f2} и {Length:f2}. Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}");
+            return $"Прямоугольник со сторонами {Width:f2} и {Length:f2}. Площадь = {GetArea():f2}, периметр = {GetPerimeter():f2}";
         }
 
         public override bool Equals(object obj)
