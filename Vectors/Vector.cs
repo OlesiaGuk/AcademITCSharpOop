@@ -52,6 +52,39 @@ namespace Vectors
             Array.Copy(array, _components, array.Length);
         }
 
+        public double this[int index]
+        {
+            get
+            {
+                if (index < 0)
+                {
+                    throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
+                }
+
+                if (index >= Size)
+                {
+                    throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
+                }
+
+                return _components[index];
+            }
+
+            set
+            {
+                if (index < 0)
+                {
+                    throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
+                }
+
+                if (index >= Size)
+                {
+                    throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
+                }
+
+                _components[index] = value;
+            }
+        }
+
         public override string ToString()
         {
             var s = new StringBuilder();
@@ -159,34 +192,6 @@ namespace Vectors
             }
 
             return Math.Sqrt(squaresSum);
-        }
-
-        public double GetComponentByIndex(int index)
-        {
-            if (index < 0)
-            {
-                throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
-            }
-            if (index >= Size)
-            {
-                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
-            }
-
-            return _components[index];
-        }
-
-        public void SetComponentByIndex(int index, double newComponent)
-        {
-            if (index < 0)
-            {
-                throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
-            }
-            if (index >= Size)
-            {
-                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
-            }
-
-            _components[index] = newComponent;
         }
 
         public static Vector GetSum(Vector vector1, Vector vector2)

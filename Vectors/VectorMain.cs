@@ -15,7 +15,7 @@ namespace Vectors
             Console.WriteLine("Длина вектора vector2 = {0}", vector2.GetLength());
 
             var index = 0;
-            Console.WriteLine("Компонента вектора vector2 по индексу {0} = {1}", index, vector2.GetComponentByIndex(index));
+            Console.WriteLine("Компонента вектора vector2 по индексу {0} = {1}", index, vector2[index]);
             Console.WriteLine();
 
             var vector3 = new Vector(new double[] { 5, 10, 20 });
@@ -32,7 +32,7 @@ namespace Vectors
             var vector4 = new Vector(vector2);
             Console.WriteLine($"Вектор vector4 (копия vector2) = {vector4}");
 
-            vector4.SetComponentByIndex(0, 10);
+            vector4[0] = 10;
             Console.WriteLine($"Вектор vector4 после установки компоненты 10 по индексу 0 = {vector4}");
             Console.WriteLine();
 
