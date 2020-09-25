@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Text;
 
-namespace Vector
+namespace Vectors
 {
     class Vector
     {
         private double[] _components;
 
-        public Vector(int n)
+        public Vector(int size)
         {
-            if (n <= 0)
+            if (size <= 0)
             {
-                throw new ArgumentException("Размерность вектора должна быть > 0");
+                throw new ArgumentException($"Передана размерность = {size}. Размерность вектора должна быть > 0", nameof(size));
             }
 
-            _components = new double[n];
+            _components = new double[size];
         }
 
         public Vector(Vector vector)
@@ -26,20 +26,27 @@ namespace Vector
         {
             if (array.Length == 0)
             {
-                throw new ArgumentException("Размерность вектора должна быть > 0");
+                throw new ArgumentException($"Передан массив размером {array.Length}. Размерность вектора должна быть > 0", nameof(array));
             }
 
             _components = (double[])array.Clone();
         }
 
-        public Vector(int n, double[] array)
+        public Vector(int size, double[] array)
         {
-            if (n <= 0)
+            if (size <= 0)
             {
-                throw new ArgumentException("Размерность вектора должна быть > 0");
+                throw new ArgumentException($"Передана размерность = {size}. Размерность вектора должна быть > 0", nameof(size));
             }
 
-            _components = new double[n];
+            _components = new double[size];
+
+            if (size < array.Length)
+            {
+                Array.Copy(array, 0, _components, 0, size);
+                return;
+            }
+
             Array.Copy(array, _components, array.Length);
         }
 
@@ -69,7 +76,8 @@ namespace Vector
             {
                 return true;
             }
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+
+            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
             {
                 return false;
             }
@@ -155,11 +163,11 @@ namespace Vector
         {
             if (index < 0)
             {
-                throw new IndexOutOfRangeException("Индекс должен быть >= 0");
+                throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
             }
             if (index >= _components.Length)
             {
-                throw new IndexOutOfRangeException("Введенный индекс превышает размерность вектора");
+                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает размерность вектора {_components.Length}");
             }
 
             return _components[index];
@@ -169,11 +177,11 @@ namespace Vector
         {
             if (index < 0)
             {
-                throw new IndexOutOfRangeException("Индекс должен быть >= 0");
+                throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
             }
             if (index >= _components.Length)
             {
-                throw new IndexOutOfRangeException("Введенный индекс превышает размерность вектора");
+                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает размерность вектора {_components.Length}");
             }
 
             _components[index] = newComponent;
