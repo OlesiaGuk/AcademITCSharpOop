@@ -7,6 +7,8 @@ namespace Vectors
     {
         private double[] _components;
 
+        public int Size => _components.Length;
+
         public Vector(int size)
         {
             if (size <= 0)
@@ -50,22 +52,17 @@ namespace Vectors
             Array.Copy(array, _components, array.Length);
         }
 
-        public int GetSize()
-        {
-            return _components.Length;
-        }
-
         public override string ToString()
         {
             var s = new StringBuilder();
             s.Append("{");
 
-            for (var i = 0; i < _components.Length - 1; i++)
+            for (var i = 0; i < Size - 1; i++)
             {
                 s.Append(_components[i]).Append(", ");
             }
 
-            s.Append(_components[_components.Length - 1]).Append("}");
+            s.Append(_components[Size - 1]).Append("}");
 
             return s.ToString();
         }
@@ -84,12 +81,12 @@ namespace Vectors
 
             var vector = (Vector)obj;
 
-            if (GetSize() != vector.GetSize())
+            if (Size != vector.Size)
             {
                 return false;
             }
 
-            for (var i = 0; i < GetSize(); i++)
+            for (var i = 0; i < Size; i++)
             {
                 if (_components[i] != vector._components[i])
                 {
@@ -105,17 +102,22 @@ namespace Vectors
             var prime = 37;
             var hash = 1;
 
-            return prime * hash + _components.GetHashCode();
+            foreach (double e in _components)
+            {
+                hash = prime * hash + e.GetHashCode();
+            }
+
+            return hash;
         }
 
         public void Add(Vector vector)
         {
-            if (GetSize() < vector.GetSize())
+            if (Size < vector.Size)
             {
-                Array.Resize(ref _components, vector._components.Length);
+                Array.Resize(ref _components, vector.Size);
             }
 
-            for (var i = 0; i < vector.GetSize(); i++)
+            for (var i = 0; i < vector.Size; i++)
             {
                 _components[i] += vector._components[i];
             }
@@ -123,12 +125,12 @@ namespace Vectors
 
         public void Subtract(Vector vector)
         {
-            if (GetSize() < vector.GetSize())
+            if (Size < vector.Size)
             {
-                Array.Resize(ref _components, vector._components.Length);
+                Array.Resize(ref _components, vector.Size);
             }
 
-            for (var i = 0; i < vector.GetSize(); i++)
+            for (var i = 0; i < vector.Size; i++)
             {
                 _components[i] -= vector._components[i];
             }
@@ -136,7 +138,7 @@ namespace Vectors
 
         public void MultiplyByScalar(double scalar)
         {
-            for (var i = 0; i < GetSize(); i++)
+            for (var i = 0; i < Size; i++)
             {
                 _components[i] *= scalar;
             }
@@ -153,7 +155,7 @@ namespace Vectors
 
             foreach (var e in _components)
             {
-                squaresSum += Math.Pow(e, 2);
+                squaresSum += e * e;
             }
 
             return Math.Sqrt(squaresSum);
@@ -165,23 +167,23 @@ namespace Vectors
             {
                 throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
             }
-            if (index >= _components.Length)
+            if (index >= Size)
             {
-                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает размерность вектора {_components.Length}");
+                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
             }
 
             return _components[index];
         }
 
-        public void SetComponentByIndex(double newComponent, int index)
+        public void SetComponentByIndex(int index, double newComponent)
         {
             if (index < 0)
             {
                 throw new IndexOutOfRangeException($"Передано значение индекса = {index}. Индекс должен быть >= 0");
             }
-            if (index >= _components.Length)
+            if (index >= Size)
             {
-                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает размерность вектора {_components.Length}");
+                throw new IndexOutOfRangeException($"Введенный индекс {index} превышает верхнюю границу индексов, равную {Size - 1}");
             }
 
             _components[index] = newComponent;
@@ -203,9 +205,9 @@ namespace Vectors
             return resultantVector;
         }
 
-        public static double GetScalarMultiplication(Vector vector1, Vector vector2)
+        public static double GetScalarProduct(Vector vector1, Vector vector2)
         {
-            var minArraySize = Math.Min(vector1.GetSize(), vector2.GetSize());
+            var minArraySize = Math.Min(vector1.Size, vector2.Size);
             double scalarMultiplication = 0;
 
             for (var i = 0; i < minArraySize; i++)

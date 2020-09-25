@@ -32,7 +32,7 @@ namespace Vectors
             var vector4 = new Vector(vector2);
             Console.WriteLine($"Вектор vector4 (копия vector2) = {vector4}");
 
-            vector4.SetComponentByIndex(10, 0);
+            vector4.SetComponentByIndex(0, 10);
             Console.WriteLine($"Вектор vector4 после установки компоненты 10 по индексу 0 = {vector4}");
             Console.WriteLine();
 
@@ -40,7 +40,7 @@ namespace Vectors
             Console.WriteLine($"Вектор vector4 = {vector4}");
             Console.WriteLine("Сумма векторов vector3 и vector4 = {0}", Vector.GetSum(vector3, vector4));
             Console.WriteLine("Разность векторов vector3 и vector4 = {0}", Vector.GetDifference(vector3, vector4));
-            Console.WriteLine("Скалярное произведениe vector3 и vector4 = {0}", Vector.GetScalarMultiplication(vector3, vector4));
+            Console.WriteLine("Скалярное произведениe vector3 и vector4 = {0}", Vector.GetScalarProduct(vector3, vector4));
             Console.WriteLine();
 
             vector3.Reverse();
