@@ -8,7 +8,14 @@ namespace Shapes
     {
         static void Main(string[] args)
         {
-            var shapesArray = new IShape[] { new Square(15), new Square(20), new Rectangle(5, 25), new Triangle(1, 1, 2, 5, 5, 3), new Circle(7) };
+            var shapesArray = new IShape[]
+            {
+                new Square(15), 
+                new Square(20), 
+                new Rectangle(5, 25), 
+                new Triangle(1, 1, 2, 5, 5, 3), 
+                new Circle(7)
+            };
 
             Console.WriteLine("Исходный список фигур: ");
 
