@@ -12,11 +12,26 @@ namespace ArrayList
 
         public int Count { get; private set; }
 
+        public int Capacity
+        {
+            get => _items.Length;
+
+            private set
+            {
+                if (value <= _items.Length)
+                {
+                    return;
+                }
+
+                Array.Resize(ref _items, value);
+            }
+        }
+
         public MyArrayList(int capacity)
         {
-            if (capacity <= 0)
+            if (capacity < 0)
             {
-                throw new ArgumentException("Вместимость списка должна быть > 0", nameof(capacity));
+                throw new ArgumentException($"Передано значение вместимости = {capacity}. Вместимость списка должна быть >= 0", nameof(capacity));
             }
 
             _items = new T[capacity];
@@ -60,15 +75,7 @@ namespace ArrayList
 
         public bool IsReadOnly => false;
 
-        private void EnsureCapacity(int requiredCapacity)
-        {
-            if (requiredCapacity < _items.Length)
-            {
-                return;
-            }
 
-            Array.Resize(ref _items, requiredCapacity * 2);
-        }
 
         private void TrimToSize()
         {
@@ -100,7 +107,7 @@ namespace ArrayList
                 throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количества элементов в списке, равного {Count}");
             }
 
-            EnsureCapacity(Count);
+            Capacity = Count == 0 ? 1 : Count * 2;
 
             Array.Copy(_items, index, _items, index + 1, Count - index);
             _items[index] = item;

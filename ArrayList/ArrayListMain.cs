@@ -6,7 +6,7 @@ namespace ArrayList
     {
         static void Main(string[] args)
         {
-            var list = new MyArrayList<int>(10);
+            var list = new MyArrayList<int>(0);
             list.Add(1);
             list.Insert(0, 2);
             list.Insert(1, 5);
