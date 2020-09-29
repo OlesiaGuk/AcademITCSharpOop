@@ -87,11 +87,14 @@ namespace ArrayList
 
         public int IndexOf(T item)
         {
-            for (var i = 0; i < _items.Length; i++)
+            if (_items != null)
             {
-                if (_items[i].Equals(item))
+                for (var i = 0; i < Count; i++)
                 {
-                    return i;
+                    if (_items[i].Equals(item))
+                    {
+                        return i;
+                    }
                 }
             }
 
@@ -117,18 +120,9 @@ namespace ArrayList
 
         public void RemoveAt(int index)
         {
-            CheckIndexLowerBound(index);
+            CheckIndexBoundaries(index);
 
-            if (index > Count)
-            {
-                throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количество элементов в списке, равного {Count}");
-            }
-
-            if (index < Count - 1)
-            {
-                Array.Copy(_items, index + 1, _items, index, Count - index - 1);
-            }
-
+            Array.Copy(_items, index + 1, _items, index, Count - index - 1);
             Count--;
             _modCount++;
         }
