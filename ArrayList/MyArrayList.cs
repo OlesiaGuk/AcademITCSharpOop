@@ -58,7 +58,7 @@ namespace ArrayList
             }
         }
 
-        public bool IsReadOnly { get; }
+        public bool IsReadOnly => false;
 
         private void EnsureCapacity(int requiredCapacity)
         {
@@ -128,9 +128,7 @@ namespace ArrayList
 
         public void Add(T item)
         {
-            EnsureCapacity(Count);
-            _items[Count] = item;
-            Count++;
+            Insert(Count, item);
         }
 
         public void Clear()
@@ -184,7 +182,7 @@ namespace ArrayList
             {
                 if (_modCount != savedModCount)
                 {
-                    throw new InvalidOperationException("За время обхода в коллекции изменилось количество элементов");
+                    throw new InvalidOperationException("За время обхода коллекция изменилась");
                 }
 
                 yield return _items[i];
@@ -201,13 +199,17 @@ namespace ArrayList
             var s = new StringBuilder();
             s.Append("[");
 
-            for (var i = 0; i < Count - 1; i++)
+            if (Count > 0)
             {
-                s.Append(_items[i] + ", ");
+                for (var i = 0; i < Count - 1; i++)
+                {
+                    s.Append(_items[i]).Append(", ");
+                }
+
+                s.Append(_items[Count - 1]);
             }
 
-            s.Append(_items[Count - 1] + "]");
-
+            s.Append("]");
             return s.ToString();
         }
     }
