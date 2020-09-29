@@ -7,9 +7,10 @@ namespace ArrayList
 {
     class MyArrayList<T> : IList<T>
     {
-        private T[] _items = new T[10];
-        private int _length;
+        private T[] _items;
         private int _modCount;
+
+        public int Count { get; private set; }
 
         public MyArrayList(int capacity)
         {
@@ -21,11 +22,6 @@ namespace ArrayList
             _items = new T[capacity];
         }
 
-        public int Count
-        {
-            get { return _length; }
-        }
-
         public T this[int index]
         {
             get
@@ -35,7 +31,7 @@ namespace ArrayList
                     throw new ArgumentException("Индекс должен быть >= 0");
                 }
 
-                if (index >= _length)
+                if (index >= Count)
                 {
                     throw new ArgumentException("Значение индекса превышает количество элементов в списке");
                 }
@@ -50,7 +46,7 @@ namespace ArrayList
                     throw new ArgumentException("Индекс должен быть >= 0");
                 }
 
-                if (index >= _length)
+                if (index >= Count)
                 {
                     throw new ArgumentException("Значение индекса превышает количество элементов в списке");
                 }
@@ -73,9 +69,9 @@ namespace ArrayList
 
         private void TrimToSize()
         {
-            if (_items.Length > _length)
+            if (_items.Length > Count)
             {
-                Array.Resize(ref _items, _length);
+                Array.Resize(ref _items, Count);
             }
         }
 
@@ -99,16 +95,16 @@ namespace ArrayList
                 throw new ArgumentException("Индекс должен быть >= 0");
             }
 
-            if (index > _length)
+            if (index > Count)
             {
                 throw new ArgumentException("Значение индекса превышает количество элементов в списке");
             }
 
-            EnsureCapacity(_length);
+            EnsureCapacity(Count);
 
-            Array.Copy(_items, index, _items, index + 1, _length - index);
+            Array.Copy(_items, index, _items, index + 1, Count - index);
             _items[index] = item;
-            _length++;
+            Count++;
             _modCount++;
         }
 
@@ -119,31 +115,31 @@ namespace ArrayList
                 throw new ArgumentException("Индекс должен быть >= 0");
             }
 
-            if (index > _length)
+            if (index > Count)
             {
                 throw new ArgumentException("Значение индекса превышает количество элементов в списке");
             }
 
-            if (index < _length - 1)
+            if (index < Count - 1)
             {
-                Array.Copy(_items, index + 1, _items, index, _length - index - 1);
+                Array.Copy(_items, index + 1, _items, index, Count - index - 1);
             }
 
-            _length--;
+            Count--;
             _modCount++;
         }
 
         public void Add(T item)
         {
-            EnsureCapacity(_length);
-            _items[_length] = item;
-            _length++;
+            EnsureCapacity(Count);
+            _items[Count] = item;
+            Count++;
         }
 
         public void Clear()
         {
             Array.Clear(_items, 0, _items.Length);
-            _length = 0;
+            Count = 0;
             _modCount++;
         }
 
@@ -164,12 +160,12 @@ namespace ArrayList
                 throw new ArgumentException("Значение индекса превышает количество элементов в массиве");
             }
 
-            if (arrayIndex + _length > array.Length)
+            if (arrayIndex + Count > array.Length)
             {
                 throw new ArgumentException("Число элементов в исходной коллекции больше доступного места от положения, заданного значением параметра arrayIndex, до конца массива назначения array");
             }
 
-            Array.Copy(_items, 0, array, arrayIndex, _length);
+            Array.Copy(_items, 0, array, arrayIndex, Count);
         }
 
         public bool Remove(T item)
@@ -188,7 +184,7 @@ namespace ArrayList
         {
             var savedModCount = _modCount;
 
-            for (var i = 0; i < _length; i++)
+            for (var i = 0; i < Count; i++)
             {
                 if (_modCount != savedModCount)
                 {
@@ -209,12 +205,12 @@ namespace ArrayList
             var s = new StringBuilder();
             s.Append("[");
 
-            for (var i = 0; i < _length - 1; i++)
+            for (var i = 0; i < Count - 1; i++)
             {
                 s.Append(_items[i] + ", ");
             }
 
-            s.Append(_items[_length - 1] + "]");
+            s.Append(_items[Count - 1] + "]");
 
             return s.ToString();
         }
