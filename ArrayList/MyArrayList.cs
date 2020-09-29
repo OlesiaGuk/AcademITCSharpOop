@@ -16,7 +16,7 @@ namespace ArrayList
         {
             if (capacity <= 0)
             {
-                throw new ArgumentException("Вместимость списка должна быть > 0");
+                throw new ArgumentException("Вместимость списка должна быть > 0", nameof(capacity));
             }
 
             _items = new T[capacity];
@@ -26,32 +26,35 @@ namespace ArrayList
         {
             get
             {
-                if (index < 0)
-                {
-                    throw new ArgumentException("Индекс должен быть >= 0");
-                }
-
-                if (index >= Count)
-                {
-                    throw new ArgumentException("Значение индекса превышает количество элементов в списке");
-                }
+                CheckIndexBoundaries(index);
 
                 return _items[index];
             }
 
             set
             {
-                if (index < 0)
-                {
-                    throw new ArgumentException("Индекс должен быть >= 0");
-                }
-
-                if (index >= Count)
-                {
-                    throw new ArgumentException("Значение индекса превышает количество элементов в списке");
-                }
+                CheckIndexBoundaries(index);
 
                 _items[index] = value;
+                _modCount++;
+            }
+        }
+
+        private static void CheckIndexLowerBound(int index)
+        {
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException($"Передан индекс = {index}. Индекс должен быть >= 0");
+            }
+        }
+
+        private void CheckIndexBoundaries(int index)
+        {
+            CheckIndexLowerBound(index);
+
+            if (index >= Count)
+            {
+                throw new IndexOutOfRangeException($"Значение индекса {index} должно быть меньше количества элементов в списке, равного {Count}");
             }
         }
 
@@ -90,14 +93,11 @@ namespace ArrayList
 
         public void Insert(int index, T item)
         {
-            if (index < 0)
-            {
-                throw new ArgumentException("Индекс должен быть >= 0");
-            }
+            CheckIndexLowerBound(index);
 
             if (index > Count)
             {
-                throw new ArgumentException("Значение индекса превышает количество элементов в списке");
+                throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количества элементов в списке, равного {Count}");
             }
 
             EnsureCapacity(Count);
@@ -110,14 +110,11 @@ namespace ArrayList
 
         public void RemoveAt(int index)
         {
-            if (index < 0)
-            {
-                throw new ArgumentException("Индекс должен быть >= 0");
-            }
+            CheckIndexLowerBound(index);
 
             if (index > Count)
             {
-                throw new ArgumentException("Значение индекса превышает количество элементов в списке");
+                throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количество элементов в списке, равного {Count}");
             }
 
             if (index < Count - 1)
@@ -150,19 +147,18 @@ namespace ArrayList
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentException("Индекс должен быть >= 0");
-            }
+            CheckIndexLowerBound(arrayIndex);
 
             if (arrayIndex >= array.Length)
             {
-                throw new ArgumentException("Значение индекса превышает количество элементов в массиве");
+                throw new IndexOutOfRangeException($"Значение индекса {arrayIndex} превышает количество элементов в массиве, равное {array.Length}");
             }
 
             if (arrayIndex + Count > array.Length)
             {
-                throw new ArgumentException("Число элементов в исходной коллекции больше доступного места от положения, заданного значением параметра arrayIndex, до конца массива назначения array");
+                throw new ArgumentException($"Число элементов в исходной коллекции ({Count}) больше доступного места от положения, " +
+                                            $"заданного значением параметра arrayIndex ({arrayIndex}), до конца массива назначения array, размер которого = {array.Length}",
+                    nameof(arrayIndex));
             }
 
             Array.Copy(_items, 0, array, arrayIndex, Count);
