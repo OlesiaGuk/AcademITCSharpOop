@@ -43,13 +43,8 @@ namespace Vectors
 
             _components = new double[size];
 
-            if (size < array.Length)
-            {
-                Array.Copy(array, 0, _components, 0, size);
-                return;
-            }
-
-            Array.Copy(array, _components, array.Length);
+            var minLength = size < array.Length ? size : array.Length;
+            Array.Copy(array, _components, minLength);
         }
 
         public double this[int index]
