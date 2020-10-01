@@ -45,7 +45,7 @@ namespace Lambdas
 
             var averageAgesByNames = persons
                 .GroupBy(p => p.Name)
-                .ToDictionary(p => p.Key, g => g.Select(p => p.Age).Average());
+                .ToDictionary(p => p.Key, g => g.Average(p => p.Age));
 
             Console.WriteLine("Сгруппировано по именам:");
             averageAgesByNames.Select(i => $"{i.Key} : средний возраст = {i.Value}")
