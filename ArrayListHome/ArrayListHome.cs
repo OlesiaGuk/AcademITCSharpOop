@@ -47,7 +47,7 @@ namespace ArrayListHome
 
         public static void RemoveEvenNumbers(List<int> list)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (list[i] % 2 == 0)
                 {
@@ -61,19 +61,19 @@ namespace ArrayListHome
         {
             Console.Write("[");
 
-            for (int i = 0; i < list.Count - 1; i++)
+            if (list.Count > 0)
             {
-                Console.Write(list[i] + ", ");
+                Console.Write(string.Join(", ", list));
             }
 
-            Console.WriteLine(list[list.Count - 1] + "]");
+            Console.WriteLine("]");
         }
 
         public static List<int> CopyListWithoutRepeatingNumbers(List<int> list)
         {
-            List<int> newList = new List<int>();
+            var newList = new List<int>(list.Count);
 
-            foreach (int e in list)
+            foreach (var e in list)
             {
                 if (!newList.Contains(e))
                 {
