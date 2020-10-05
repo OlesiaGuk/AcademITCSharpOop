@@ -24,25 +24,28 @@ namespace ArrayListHome
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Файл не найден: " + e.FileName);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Ошибка при работе в файлом: " + e);
+                Console.WriteLine("Ошибка при работе в файлом: " + e.Message);
             }
 
             Console.Write("Исходный список: ");
             PrintList(list);
+            Console.WriteLine();
 
             RemoveEvenNumbers(list);
 
             Console.Write("Список без четных чисел: ");
             PrintList(list);
+            Console.WriteLine();
 
-            var listWithoutDuplicates = CopyListWithoutRepeatingNumbers(list);
+            var listWithoutDuplicates = GetListWithoutRepeatingNumbers(list);
 
             Console.Write("Список без повторений: ");
             PrintList(listWithoutDuplicates);
+            Console.WriteLine();
         }
 
         public static void RemoveEvenNumbers(List<int> list)
@@ -59,17 +62,10 @@ namespace ArrayListHome
 
         public static void PrintList(List<int> list)
         {
-            Console.Write("[");
-
-            if (list.Count > 0)
-            {
-                Console.Write(string.Join(", ", list));
-            }
-
-            Console.WriteLine("]");
+            Console.Write($"[{string.Join(", ", list)}]");
         }
 
-        public static List<int> CopyListWithoutRepeatingNumbers(List<int> list)
+        public static List<int> GetListWithoutRepeatingNumbers(List<int> list)
         {
             var newList = new List<int>(list.Count);
 
