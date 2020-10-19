@@ -28,7 +28,7 @@ namespace ArrayListHome
             }
             catch (Exception e)
             {
-                Console.WriteLine("Ошибка при работе в файлом: " + e.Message);
+                Console.WriteLine("Ошибка при работе с файлом: " + e.Message);
             }
 
             Console.Write("Исходный список: ");
@@ -41,7 +41,7 @@ namespace ArrayListHome
             PrintList(list);
             Console.WriteLine();
 
-            var listWithoutDuplicates = GetListWithoutRepeatingNumbers(list);
+            var listWithoutDuplicates = GetListWithoutDuplicates(list);
 
             Console.Write("Список без повторений: ");
             PrintList(listWithoutDuplicates);
@@ -65,7 +65,7 @@ namespace ArrayListHome
             Console.Write($"[{string.Join(", ", list)}]");
         }
 
-        public static List<int> GetListWithoutRepeatingNumbers(List<int> list)
+        public static List<int> GetListWithoutDuplicates(List<int> list)
         {
             var newList = new List<int>(list.Count);
 
