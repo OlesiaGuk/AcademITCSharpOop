@@ -18,7 +18,12 @@ namespace ArrayList
 
             private set
             {
-                if (value <= _items.Length)
+                if (value < _items.Length)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Переданное значение емкости {value} меньше текущего размера, равного {_items.Length}");
+                }
+
+                if (value == _items.Length)
                 {
                     return;
                 }
@@ -41,31 +46,26 @@ namespace ArrayList
         {
             get
             {
-                CheckIndexBoundaries(index);
+                CheckIndex(index);
 
                 return _items[index];
             }
 
             set
             {
-                CheckIndexBoundaries(index);
+                CheckIndex(index);
 
                 _items[index] = value;
                 _modCount++;
             }
         }
 
-        private static void CheckIndexLowerBound(int index)
+        private void CheckIndex(int index)
         {
             if (index < 0)
             {
                 throw new IndexOutOfRangeException($"Передан индекс = {index}. Индекс должен быть >= 0");
             }
-        }
-
-        private void CheckIndexBoundaries(int index)
-        {
-            CheckIndexLowerBound(index);
 
             if (index >= Count)
             {
@@ -75,22 +75,32 @@ namespace ArrayList
 
         public bool IsReadOnly => false;
 
-
-
-        private void TrimToSize()
+        public void TrimToSize()
         {
-            if (_items.Length > Count)
-            {
-                Array.Resize(ref _items, Count);
-            }
+            Capacity = Count;
         }
 
         public int IndexOf(T item)
         {
-            if (_items != null)
+            if (item == null)
             {
                 for (var i = 0; i < Count; i++)
                 {
+                    if (_items[i] == null)
+                    {
+                        return i;
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < Count; i++)
+                {
+                    if (_items[i] == null)
+                    {
+                        continue;
+                    }
+
                     if (_items[i].Equals(item))
                     {
                         return i;
@@ -103,14 +113,17 @@ namespace ArrayList
 
         public void Insert(int index, T item)
         {
-            CheckIndexLowerBound(index);
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException($"Передан индекс = {index}. Индекс должен быть >= 0");
+            }
 
             if (index > Count)
             {
                 throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количества элементов в списке, равного {Count}");
             }
 
-            Capacity = Count == 0 ? 1 : Count * 2;
+            Capacity = _items.Length == 0 ? 1 : (Count == _items.Length ? _items.Length * 2 : _items.Length);
 
             Array.Copy(_items, index, _items, index + 1, Count - index);
             _items[index] = item;
@@ -120,9 +133,13 @@ namespace ArrayList
 
         public void RemoveAt(int index)
         {
-            CheckIndexBoundaries(index);
+            CheckIndex(index);
 
             Array.Copy(_items, index + 1, _items, index, Count - index - 1);
+
+            ref var removingElementReference = ref _items[Count - 1];
+            removingElementReference = default;
+
             Count--;
             _modCount++;
         }
@@ -134,7 +151,7 @@ namespace ArrayList
 
         public void Clear()
         {
-            Array.Clear(_items, 0, _items.Length);
+            Array.Clear(_items, 0, Count);
             Count = 0;
             _modCount++;
         }
@@ -146,7 +163,10 @@ namespace ArrayList
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            CheckIndexLowerBound(arrayIndex);
+            if (arrayIndex < 0)
+            {
+                throw new IndexOutOfRangeException($"Передан индекс = {arrayIndex}. Индекс должен быть >= 0");
+            }
 
             if (arrayIndex >= array.Length)
             {
@@ -197,18 +217,20 @@ namespace ArrayList
 
         public override string ToString()
         {
+            if (Count == 0)
+            {
+                return "[]";
+            }
+
             var s = new StringBuilder();
             s.Append("[");
 
-            if (Count > 0)
+            for (var i = 0; i < Count - 1; i++)
             {
-                for (var i = 0; i < Count - 1; i++)
-                {
-                    s.Append(_items[i]).Append(", ");
-                }
-
-                s.Append(_items[Count - 1]);
+                s.Append(_items[i]).Append(", ");
             }
+
+            s.Append(_items[Count - 1]);
 
             s.Append("]");
             return s.ToString();
