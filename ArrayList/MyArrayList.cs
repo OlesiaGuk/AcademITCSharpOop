@@ -16,11 +16,11 @@ namespace ArrayList
         {
             get => _items.Length;
 
-            private set
+            set
             {
-                if (value < _items.Length)
+                if (value < Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), $"Переданное значение емкости {value} меньше текущего размера, равного {_items.Length}");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Переданное значение емкости {value} меньше текущего размера списка, равного {Count}");
                 }
 
                 if (value == _items.Length)
@@ -82,29 +82,11 @@ namespace ArrayList
 
         public int IndexOf(T item)
         {
-            if (item == null)
+            for (var i = 0; i < Count; i++)
             {
-                for (var i = 0; i < Count; i++)
+                if (Equals(_items[i], item))
                 {
-                    if (_items[i] == null)
-                    {
-                        return i;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < Count; i++)
-                {
-                    if (_items[i] == null)
-                    {
-                        continue;
-                    }
-
-                    if (_items[i].Equals(item))
-                    {
-                        return i;
-                    }
+                    return i;
                 }
             }
 
@@ -123,7 +105,11 @@ namespace ArrayList
                 throw new IndexOutOfRangeException($"Значение индекса {index} не должно быть больше количества элементов в списке, равного {Count}");
             }
 
-            Capacity = _items.Length == 0 ? 1 : (Count == _items.Length ? _items.Length * 2 : _items.Length);
+            if (Count == Capacity)
+            {
+                Capacity = Capacity == 0 ? 1 : Capacity * 2;
+            }
+
 
             Array.Copy(_items, index, _items, index + 1, Count - index);
             _items[index] = item;
@@ -136,9 +122,7 @@ namespace ArrayList
             CheckIndex(index);
 
             Array.Copy(_items, index + 1, _items, index, Count - index - 1);
-
-            ref var removingElementReference = ref _items[Count - 1];
-            removingElementReference = default;
+            _items[Count - 1] = default;
 
             Count--;
             _modCount++;
